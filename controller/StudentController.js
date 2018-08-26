@@ -4,10 +4,10 @@ var ObjectId=require('mongoose').Types.ObjectId;
 var{Student}=require('../model/Studentmod.js');
 //localhost:3000/StudentDB/
 //displayall
-router.get('/',(req,res,next)=>{
+router.get('/',(req,res)=>{
     Student.find((err,docs)=>{
-      if(!err)
-      res.send(docs);
+      if(!err){
+      res.send(docs);}
       else
       console.log('Error in retriving respond of Student'+JSON.stringify(err,undefined,2));
     });
@@ -21,7 +21,7 @@ router.get('/:id',(req,res)=>{
     if(!err)
       res.send(doc);
     else
-      console.log('Error while retriving Student id',JSON.Stringify(err,undefined,2));
+      console.log('Error while retriving Student id',JSON.stringify(err,undefined,2));
   });
 
 });
@@ -40,23 +40,23 @@ router.post('/:id',(req,res)=>{
       cutoff:req.body.cutoff
     };
 
-    Student.findByIdAndUpdate(req.params.id,{$set:emp},{new:true},(err,doc)=>
+    Student.findByIdAndUpdate(req.params.id,{$set:sud},{new:true},(err,doc)=>
   {
     if(!err)
       res.send(doc);
     else
-      console.log('Error while updatig Student id',JSON.Stringify(err,undefined,2));
+      console.log('Error while updatig Student id',JSON.stringify(err,undefined,2));
   });
 });
 //deleting
-router.delete('/:id',(req,res)=>{
+router.get('/remove/:id',(req,res)=>{
   if(!ObjectId.isValid(req.params.id))
     return res.status(400).send('No record found for:'+req.params.id);
   Student.findByIdAndRemove(req.params.id,(err,doc)=>{
     if(!err)
       res.send(doc);
     else
-      console.log('Error while deleting Student id',JSON.Stringify(err,undefined,2));
+      console.log('Error while deleting Student id',JSON.stringify(err,undefined,2));
   });
 });
 //insert
