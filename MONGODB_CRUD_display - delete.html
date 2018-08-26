@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Edit HTML Table Selected Row</title>
+        <meta charset="windows-1252">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.6.2/jquery.min.js"> </script>
+<!-- -->
+ <script> 
+            
+            // get selected row
+            // display selected row data in text input
+			var _id;
+		
+            function hi(x){
+			 _id=x.getAttribute('data-name');
+            var table = document.getElementById("table"),rIndex;
+			
+                table.rows[x.rowIndex].onclick = function()
+                {
+                    rIndex = this.rowIndex;
+                    console.log(rIndex);
+                    
+                    document.getElementById("Name").value = this.cells[0].innerHTML;
+                    document.getElementById("Rollno").value = this.cells[1].innerHTML;
+                    document.getElementById("Class").value = this.cells[2].innerHTML;
+					document.getElementById("Phy").value = this.cells[3].innerHTML;
+                    document.getElementById("Chem").value = this.cells[4].innerHTML;
+                    document.getElementById("Math").value = this.cells[5].innerHTML;
+					document.getElementById("cutoff").value = this.cells[6].innerHTML;
+					
+                };
+            
+            }
+            
+           // edit the row
+            function editRow()
+            {
+			document.getElementById('myField').action ="http://localhost:3000/StudentDB/"+_id;
+            }
+			
+			function del(){
+			document.getElementById('myField').method="GET"
+			document.getElementById('myField').action ="http://localhost:3000/StudentDB/remove/"+_id;
+			
+			}
+            
+        </script> 
+
+
+
+<!-- -->
+<script>
+
+$(function() {
+
+var entries = [];
+var dmJSON = "http://localhost:3000/StudentDB/";
+$.getJSON( dmJSON, function(data) {
+   $.each(data, function(i, f) {
+      var tblRow = "<tr onclick=hi(this) data-name="+f._id+"><td>" + f.Name + "</td><td>" + f.Rollno+ "</td><td>" + f.Class + "</td><td>" + f.Phy + "</td><td>" + f.Chem + "</td><td>" + f.Math + "</td><td>" + f.cutoff + "</td></tr>";
+       $(tblRow).appendTo("#table tbody");
+ });
+
+});
+
+});
+</script>
+       
+        
+       
+        <style>
+            table tr:not(:first-child){
+                cursor: pointer;transition: all .25s ease-in-out;
+            }
+            table tr:not(:first-child):hover{background-color: #ddd;}
+        </style>
+    </head>
+    <body>
+        <form id="myField" action="" method="POST" >
+  name:<br>
+  <input type="text" name="name" id="Name">
+  <br>
+  rollno:<br>
+  <input type="text" name="rollno" id="Rollno">
+  <br>
+  class:<br>
+  <input type="text" name="class" id="Class">
+  <br>
+  <p>MARKS</p>
+  phy:<br>
+  <input type="text" name="phy" id="Phy">
+  <br>
+  chem:<br>
+  <input type="text" name="chem" id="Chem">
+  <br>
+  math:<br>
+  <input type="text" name="math" id="Math">
+  <br>
+  cutoff:<br>
+  <input type="text" name="cutoff" id="cutoff">
+  <br><br>
+  <input type="submit" value="Submit" onclick="editRow()">
+  <input type="submit" value="Remove" onclick="del()">
+</form>
+        <div class="wrapper">
+        <div class="profile">
+        <table id="table" border="1">
+            
+          <thead>
+        <th>Name</th>
+		<th>Rollno</th>
+		<th>Class</th>
+        <th>PHY</th>
+		<th>CHEM</th>
+        <th>MATH</th>
+		<th>cutoff</th>
+		
+       
+    </thead>
+  <tbody>
+
+   </tbody>
+            
+        </table>
+		</div>
+		</div>
+    
+        
+    </body>
+</html>
