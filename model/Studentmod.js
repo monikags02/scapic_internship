@@ -1,6 +1,6 @@
 const mongoose=require('mongoose')
 
-var Student=mongoose.model('School_atd',{
+var Student=mongoose.model('student_tbl',{
   Name:{type:String},
   Rollno:{type:Number},
   Class:{type:Number},
